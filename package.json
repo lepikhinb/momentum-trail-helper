@@ -1,0 +1,58 @@
+{
+  "name": "momentum-trail",
+  "description": "",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run lint && npm run format && vite build && tsc --declaration --emitDeclarationOnly",
+    "lint": "eslint \"src/**\" --fix",
+    "format": "prettier src/ --write"
+  },
+  "keywords": [
+    "laravel",
+    "inertia",
+    "vue",
+    "permissions",
+    "authorization"
+  ],
+  "author": "Boris Lepikhin<https://twitter.com/lepikhinb>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lepikhinb/momentum-trail-helper.git"
+  },
+  "homepage": "https://github.com/lepikhinb/momentum-trail#readme",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/momentum-trail.umd.cjs",
+  "module": "./dist/momentum-trail.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/momentum-trail.js",
+      "require": "./dist/momentum-trail.umd.cjs"
+    }
+  },
+  "peerDependencies": {
+    "vue": "^3.x"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/ziggy-js": "^1.3.2",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-define-config": "^1.7.0",
+    "eslint-plugin-node": "^11.1.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.8",
+    "vite-plugin-eslint": "^1.8.1",
+    "vue": "^3.2.45"
+  },
+  "dependencies": {
+    "ziggy-js": "^1.5.0"
+  }
+}
