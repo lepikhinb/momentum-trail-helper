@@ -14,6 +14,7 @@ module.exports = defineConfig({
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "node/no-missing-import": [
       "error",
       {

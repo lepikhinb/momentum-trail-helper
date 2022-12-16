@@ -1,5 +1,5 @@
 import getRoute from "ziggy-js"
-import resolver from "./resolver"
+import state from "./state"
 
 interface Route {
   uri: string
@@ -31,7 +31,7 @@ type RouteParameters<T extends RouteName> =
   | number
 
 export function route<T extends RouteName>(name: T, params?: RouteParameters<T>) {
-  const { url, routes, defaults } = resolver.getRoutes()
+  const { url, routes, defaults } = state.getRoutes()
 
   return getRoute(name as any, params as any, true, { url, routes, defaults } as any).toString()
 }
@@ -40,7 +40,7 @@ export function current<T extends RouteName | Wildcard>(
   name?: T,
   params?: T extends RouteName ? RouteParameters<T> : {}
 ): boolean | string {
-  const { url, routes, defaults } = resolver.getRoutes()
+  const { url, routes, defaults } = state.getRoutes()
 
   return getRoute(undefined, undefined, false, { url, routes, defaults } as any).current(
     name as string,

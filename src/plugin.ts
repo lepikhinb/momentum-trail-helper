@@ -1,10 +1,13 @@
 import { App } from "vue"
-import resolver from "./resolver"
+import state from "./state"
+import type { RouterGlobal } from "./router"
 
 export interface TrailPluginOptions {
-  routes: any
+  routes?: RouterGlobal
 }
 
-export const trail = (app: App, options: TrailPluginOptions) => {
-  resolver.setRoutes(options.routes)
+export const trail = (app: App, options?: TrailPluginOptions) => {
+  if (options?.routes) {
+    state.setRoutes(options.routes)
+  }
 }
