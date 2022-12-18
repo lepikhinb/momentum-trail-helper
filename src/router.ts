@@ -47,3 +47,7 @@ export function current<T extends RouteName | Wildcard>(
     params as any
   )
 }
+
+export function defineRoutes(routes: RouterGlobal): void {
+  state.setRoutes(routes)
+}
