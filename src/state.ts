@@ -6,5 +6,5 @@ export default {
   setRoutes: (payload: RouterGlobal) => (routes = payload),
 
   /** @ts-ignore */
-  getRoutes: () => window.trail ?? routes,
+  getRoutes: () => (typeof window !== "undefined" && window.trail ? window.trail : routes),
 }

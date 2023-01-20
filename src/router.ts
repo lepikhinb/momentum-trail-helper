@@ -1,5 +1,6 @@
 import getRoute from "ziggy-js"
 import state from "./state"
+import { Router } from "./types"
 
 interface Route {
   uri: string
@@ -7,7 +8,7 @@ interface Route {
   bindings: Record<string, string>
 }
 
-interface Router {
+interface RouteCollection {
   url: string
   port: number | null
   routes: Record<string, Route>
@@ -15,37 +16,39 @@ interface Router {
   defaults: Record<string, any>
 }
 
-export interface RouterGlobal extends Router {}
+export interface RouterGlobal extends RouteCollection {}
 
-type RouteName = keyof RouterGlobal["routes"]
+export type RouteName = keyof RouterGlobal["routes"]
 
-type Wildcard = keyof RouterGlobal["wildcards"]
+export type Wildcard = keyof RouterGlobal["wildcards"]
 
 type Routes = RouterGlobal["routes"]
 
-type RouteParameters<T extends RouteName> =
+export type RouteParameters<T extends RouteName> =
   | (Routes[T] extends { bindings: any }
       ? Partial<Record<keyof Routes[T]["bindings"], any>> & Record<string, any>
       : {})
   | string
   | number
 
-export function route<T extends RouteName>(name: T, params?: RouteParameters<T>) {
+type Value<T> = [T] extends [string] ? string : Router
+
+export function route<T extends RouteName | undefined>(
+  name?: T,
+  params?: T extends string ? RouteParameters<T> : undefined
+): Value<T> {
   const { url, routes, defaults } = state.getRoutes()
 
-  return getRoute(name as any, params as any, true, { url, routes, defaults } as any).toString()
+  const route = getRoute(name as any, params as any, true, { url, routes, defaults } as any)
+
+  return (name ? route : route.toString()) as Value<T>
 }
 
 export function current<T extends RouteName | Wildcard>(
   name?: T,
   params?: T extends RouteName ? RouteParameters<T> : {}
-): boolean | string {
-  const { url, routes, defaults } = state.getRoutes()
-
-  return getRoute(undefined, undefined, false, { url, routes, defaults } as any).current(
-    name as string,
-    params as any
-  )
+): boolean {
+  return route().current(name, params)
 }
 
 export function defineRoutes(routes: any): void {
