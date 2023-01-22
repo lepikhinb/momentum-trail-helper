@@ -50,6 +50,10 @@ export function current<T extends RouteName | Wildcard>(
   )
 }
 
-export function defineRoutes(routes: any): void {
+export function defineRoutes(routes: any, path?: string): void {
   state.setRoutes(routes)
+
+  if (path) {
+    state.setLocation(routes.url, path)
+  }
 }
