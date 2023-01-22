@@ -42,7 +42,9 @@ export function current<T extends RouteName | Wildcard>(
 ): boolean | string {
   const { url, routes, defaults } = state.getRoutes()
 
-  return getRoute(undefined, undefined, false, { url, routes, defaults } as any).current(
+  const location = state.getLocation()
+
+  return getRoute(undefined, undefined, false, { url, routes, defaults, location } as any).current(
     name as string,
     params as any
   )

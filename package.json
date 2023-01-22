@@ -1,7 +1,7 @@
 {
   "name": "momentum-trail",
   "description": "Fully typed frontend route helper for Laravel apps",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "scripts": {
     "dev": "vite",
     "build": "npm run lint && npm run format && vite build && tsc --declaration --emitDeclarationOnly",
@@ -24,6 +24,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "type": "module",
   "main": "./dist/momentum-trail.umd.cjs",
   "module": "./dist/momentum-trail.js",
