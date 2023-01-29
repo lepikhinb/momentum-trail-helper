@@ -1,59 +1,38 @@
 import getRoute from "ziggy-js"
-import state from "./state"
+import store from "./store"
+import { Router, RouteCollection } from "./types"
 
-interface Route {
-  uri: string
-  methods: Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE">
-  bindings: Record<string, string>
-}
+export interface RouterGlobal extends RouteCollection {}
 
-interface Router {
-  url: string
-  port: number | null
-  routes: Record<string, Route>
-  wildcards: Record<string, []>
-  defaults: Record<string, any>
-}
+export type RouteName = keyof RouterGlobal["routes"]
 
-export interface RouterGlobal extends Router {}
-
-type RouteName = keyof RouterGlobal["routes"]
-
-type Wildcard = keyof RouterGlobal["wildcards"]
+export type Wildcard = keyof RouterGlobal["wildcards"]
 
 type Routes = RouterGlobal["routes"]
 
-type RouteParameters<T extends RouteName> =
+export type RouteParameters<T extends RouteName> =
   | (Routes[T] extends { bindings: any }
       ? Partial<Record<keyof Routes[T]["bindings"], any>> & Record<string, any>
       : {})
   | string
   | number
 
-export function route<T extends RouteName>(name: T, params?: RouteParameters<T>) {
-  const { url, routes, defaults } = state.getRoutes()
+export function route(): Router
+export function route<T extends RouteName>(name: T, params?: RouteParameters<T>): string
 
-  return getRoute(name as any, params as any, true, { url, routes, defaults } as any).toString()
+export function route(name?: any, params?: any): any {
+  const { url, routes, defaults } = store.getRoutes()
+
+  return getRoute(name as any, params as any, true, { url, routes, defaults } as any)
 }
 
 export function current<T extends RouteName | Wildcard>(
   name?: T,
   params?: T extends RouteName ? RouteParameters<T> : {}
-): boolean | string {
-  const { url, routes, defaults } = state.getRoutes()
-
-  const location = state.getLocation()
-
-  return getRoute(undefined, undefined, false, { url, routes, defaults, location } as any).current(
-    name as string,
-    params as any
-  )
+): boolean {
+  return route().current(name, params)
 }
 
-export function defineRoutes(routes: any, path?: string): void {
-  state.setRoutes(routes)
-
-  if (path) {
-    state.setLocation(routes.url, path)
-  }
+export function defineRoutes(routes: any): void {
+  store.setRoutes(routes)
 }
