@@ -1,7 +1,21 @@
 import { RouteParams } from "ziggy-js"
 import { RouteName, RouteParameters, Wildcard } from "./router"
 
-export class Router extends String {
+interface Route {
+  uri: string
+  methods: Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE">
+  bindings: Record<string, string>
+}
+
+export interface RouteCollection {
+  url: string
+  port: number | null
+  routes: Record<string, Route>
+  wildcards: Record<string, []>
+  defaults: Record<string, any>
+}
+
+export interface Router extends String {
   /**
    * Get the name of the route matching the current window URL, or, given a route name
    * and parameters, check if the current window URL and parameters match that route.

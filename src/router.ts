@@ -1,20 +1,6 @@
 import getRoute from "ziggy-js"
-import state from "./state"
-import { Router } from "./types"
-
-interface Route {
-  uri: string
-  methods: Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE">
-  bindings: Record<string, string>
-}
-
-interface RouteCollection {
-  url: string
-  port: number | null
-  routes: Record<string, Route>
-  wildcards: Record<string, []>
-  defaults: Record<string, any>
-}
+import store from "./store"
+import { Router, RouteCollection } from "./types"
 
 export interface RouterGlobal extends RouteCollection {}
 
@@ -31,17 +17,13 @@ export type RouteParameters<T extends RouteName> =
   | string
   | number
 
-type Value<T> = [T] extends [string] ? string : Router
+export function route(): Router
+export function route<T extends RouteName>(name: T, params?: RouteParameters<T>): string
 
-export function route<T extends RouteName | undefined>(
-  name?: T,
-  params?: T extends string ? RouteParameters<T> : undefined
-): Value<T> {
-  const { url, routes, defaults } = state.getRoutes()
+export function route(name?: any, params?: any): any {
+  const { url, routes, defaults } = store.getRoutes()
 
-  const route = getRoute(name as any, params as any, true, { url, routes, defaults } as any)
-
-  return (name ? route : route.toString()) as Value<T>
+  return getRoute(name as any, params as any, true, { url, routes, defaults } as any)
 }
 
 export function current<T extends RouteName | Wildcard>(
@@ -52,5 +34,5 @@ export function current<T extends RouteName | Wildcard>(
 }
 
 export function defineRoutes(routes: any): void {
-  state.setRoutes(routes)
+  store.setRoutes(routes)
 }

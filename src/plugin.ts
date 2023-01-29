@@ -1,5 +1,5 @@
 import { App } from "vue"
-import state from "./state"
+import store from "./store"
 import type { RouterGlobal } from "./router"
 
 export interface TrailPluginOptions {
@@ -8,6 +8,6 @@ export interface TrailPluginOptions {
 
 export const trail = (app: App, options?: TrailPluginOptions) => {
   if (options?.routes) {
-    state.setRoutes(options.routes)
+    store.setRoutes(options.routes)
   }
 }
