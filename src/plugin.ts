@@ -1,9 +1,8 @@
 import { App } from "vue"
 import store from "./store"
-import type { RouterGlobal } from "./router"
 
 export interface TrailPluginOptions {
-  routes?: RouterGlobal
+  routes?: any
   url?: string
 }
 
