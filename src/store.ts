@@ -2,6 +2,7 @@ import { RouterGlobal } from "./router"
 
 let routes: RouterGlobal
 let location: URL | undefined
+let absolute = true
 
 export default {
   setRoutes: (payload: RouterGlobal) => (routes = payload),
@@ -14,4 +15,8 @@ export default {
   },
 
   getLocation: () => location,
+
+  getAbsolute: () => absolute,
+
+  setAbsolute: (value: boolean) => (absolute = value),
 }

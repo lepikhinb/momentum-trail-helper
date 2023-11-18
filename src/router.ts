@@ -22,8 +22,8 @@ export function route<T extends RouteName>(name: T, params?: RouteParameters<T>)
 
 export function route(name?: any, params?: any): any {
   const { url, routes, defaults } = store.getRoutes()
-
-  return getRoute(name as any, params as any, true, { url, routes, defaults } as any)
+  const absolute = store.getAbsolute()
+  return getRoute(name as any, params as any, absolute, { url, routes, defaults } as any)
 }
 
 export function current<T extends RouteName | Wildcard>(
