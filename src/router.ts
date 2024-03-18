@@ -21,9 +21,10 @@ export function route(): Router
 export function route<T extends RouteName>(name: T, params?: RouteParameters<T>): string
 
 export function route(name?: any, params?: any): any {
-  const { url, routes, defaults } = store.getRoutes()
+  const { url, routes, defaults, port } = store.getRoutes()
   const absolute = store.getAbsolute()
-  return getRoute(name as any, params as any, absolute, { url, routes, defaults } as any)
+
+  return getRoute(name as any, params as any, absolute, { url, routes, defaults, port } as any)
 }
 
 export function current<T extends RouteName | Wildcard>(
